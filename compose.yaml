@@ -1,0 +1,22 @@
+﻿services:
+  testememcached:
+    image: testememcached
+    build:
+      context: .
+      dockerfile: Dockerfile
+  hazelcast:
+    image: hazelcast/hazelcast:5.5.2
+    container_name: aerospike-server
+    ports:
+      - "5701:5701"
+  aerospikedb:
+    image: aerospike/aerospike-server:latest
+    container_name: aerospike-server
+    ports:
+      - "3000-3002:3000-3002"
+  memcached:
+    image: memcached:alpine
+    container_name: memcached_service
+    ports:
+      - "11211:11211"
+    command: memcached -m 64 -u memcache
