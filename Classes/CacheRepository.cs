@@ -1,4 +1,5 @@
 ﻿using Enyim.Caching;
+using Aerospike.Client;
 
 namespace TesteMemcached.Classes;
 
@@ -9,23 +10,33 @@ public interface ICacheRepository
 
 public class MemCacheRepository : ICacheRepository
 {
-    private readonly IMemcachedClient memcachedClient;
+    private readonly IMemcachedClient _memcachedClient;
 
     public MemCacheRepository(IMemcachedClient memcachedClient)
     {
-        this.memcachedClient = memcachedClient;
+        this._memcachedClient = memcachedClient;
     }
 
     public void Set<T>(string key, T value)
     {
-        memcachedClient.Set(key, value, 60 * 60);
+        _memcachedClient.Set(key, value, 60 * 60);
     }
 }
 
-public class MyClass:ICacheRepository
+public class AerospikeRepository:ICacheRepository
 {
+    private readonly IAerospikeClient _aerospikeClient;
+    private WritePolicy _writePolicy { get; set; }
+    
+    public AerospikeRepository(IAerospikeClient _aerospikeClient)
+    {
+        this._aerospikeClient = _aerospikeClient;
+        _writePolicy = new WritePolicy();
+    }
     public void Set<T>(string key, T value)
     {
-        throw new NotImplementedException();
+        var keyStuff = new Key(ns: key, setName: key,  key: value.ToString());
+        
+        _aerospikeClient.Put(_writePolicy, keyStuff);
     }
 }
