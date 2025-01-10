@@ -1,10 +1,11 @@
-﻿using TesteMemcached.Classes;
+﻿using System.Diagnostics;
+using TesteMemcached.Classes;
 
 namespace TesteMemcached;
 
 public class SetterUpper
 {
-    private int UPPER = 10000;
+    private int UPPER = 1000;
     
     string content = File.ReadAllText
         ("C:\\Users\\luanar\\Desktop\\WorkStuff\\TestesNoSQL\\TesteMemcached\\request.txt");
@@ -21,10 +22,15 @@ public class SetterUpper
 
     public void SetUp()
     {
+        Stopwatch stopwatch = Stopwatch.StartNew();
         for (int i = 0; i < UPPER; i++)
         {
             CacheRepository.Set($"Key_{i}", content);
         }
+        stopwatch.Stop();
+        Console.WriteLine($"SetUp method execution time in {CacheRepository.GetType()}: {stopwatch.ElapsedMilliseconds} ms");
+        
+        Console.WriteLine(CacheRepository.GetType());
     }
 
     public void DisplayKeys()
