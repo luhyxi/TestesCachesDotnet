@@ -1,4 +1,5 @@
 ﻿# Ferramentas alternativas ao Redis
+
 ---
 ## Memcached (Enyim Memcached):
 _Documentação: https://github.com/enyim/EnyimMemcached?tab=readme-ov-file_
@@ -41,12 +42,27 @@ _Documentação: https://aerospike.com/apidocs/csharp/html/N_Aerospike_Client.ht
 	- Cons
 		- Pouca documentação
 		- Bem mais complexo
+        - Não suporta chaves com mais de um 1mb
+        - Bem opinionado
 
 
 ---
+
+## Ranking
+1.  Hazelcast -> 32ms
+2.  Aerospike -> 205ms
+3.  MemCache -> 15209ms
+
+### Teste
+![img.png](img.png)
+
+---
+
 ### Fontes:
 https://anthonyaje.github.io/file/An_empirical_evaluation_of_Memcached_Redis_and_Aerospike_kvstore_Anthony_Eswar.pdf
 
 https://aerospike.com/compare/redis-vs-aerospike/
 
 https://stackoverflow.com/questions/10558465/memcached-vs-redis	
+
+https://stackoverflow.com/questions/33001151/can-aerospike-be-used-to-store-large-values
